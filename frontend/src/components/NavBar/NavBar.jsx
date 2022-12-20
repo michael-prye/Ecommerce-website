@@ -17,10 +17,16 @@ const Navbar = () => {
         </li>
         <li>
           {user ? (
+            <div>
             <button onClick={logoutUser}>Logout</button>
+            <button onClick={() => navigate("/profile")}>Profile</button>
+            </div>
           ) : (
             <button onClick={() => navigate("/login")}>Login</button>
           )}
+        </li>
+        <li>
+          
         </li>
       </ul>
     </div>
