@@ -3,7 +3,7 @@ from django.contrib.auth.models import AbstractUser
 
 
 class User(AbstractUser):
-    is_employee = models.BooleanField( default=False)
+    is_employee = models.BooleanField()
     
     '''
     This is a custom version of the built in User class
