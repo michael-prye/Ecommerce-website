@@ -9,17 +9,25 @@ const ProfilePage = () => {
 const [user,token] = useAuth();
 const innerWidth = useWindowSize();
 
-    useEffect(()=>{
-        console.log(innerWidth)
-    },[])
-
-
+if (innerWidth < 500){
     return(
         <div>
-            <h1>{innerWidth}</h1>
+            <h1>Small Screen</h1>
+            <h5>{innerWidth}</h5>
         </div>
-
     );
+} else {
+    return(
+        <div>
+            <h1>Big Screen</h1>
+            <h5>{innerWidth}</h5>
+        </div>
+    );
+}
+
+
+
+    
 };
 
 export default ProfilePage;
