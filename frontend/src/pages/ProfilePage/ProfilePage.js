@@ -34,6 +34,8 @@ const [profileChoice, setProfileChoice] = useState('account')
             <li className={profileChoice === 'orders' ? 'tab--active' : 'tab--inactive'} onClick={()=>setProfileChoice('orders')}>Orders</li>
            </ul>
            {profileComponent}
+           {user.is_employee ?
+           <h1>i am a</h1> :'not true'}
         </div>
     );
 }

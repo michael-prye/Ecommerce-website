@@ -4,6 +4,7 @@ import { useNavigate, Link } from "react-router-dom";
 import AuthContext from "../../context/AuthContext";
 import useWindowSize from "../../hooks/useWindowSize";
 import "./NavBar.css";
+import { Menu } from "@headlessui/react";
 
 const Navbar = () => {
   const { logoutUser, user } = useContext(AuthContext);
@@ -11,9 +12,13 @@ const Navbar = () => {
   const navigate = useNavigate();
   const innerWidth = useWindowSize();
 
-  const handleToggle = () => {
-    setMenuBarOpen(!menuBarOpen);
-  }
+ function ProfileMenu(){
+  return(
+    {
+      
+    }
+  )
+ }
 
   if (innerWidth < 500){
     return(
