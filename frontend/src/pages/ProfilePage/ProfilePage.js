@@ -8,26 +8,38 @@ const ProfilePage = () => {
 
 const [user,token] = useAuth();
 const innerWidth = useWindowSize();
+const [profileChoice, setProfileChoice] = useState('account')
 
-if (innerWidth < 500){
+    let profileComponent;
+    switch(profileChoice){
+        case 'account':
+            profileComponent = <h1>account</h1>
+            break;
+        case 'payment':
+            profileComponent = <h1>payment</h1>
+            break;
+        case 'orders':
+            profileComponent = <h1>orders</h1>
+            break;
+        default:
+            console.log('Not a vidlid choice')
+    }
+
+
     return(
         <div>
-            <h1>Small Screen</h1>
-            <h5>{innerWidth}</h5>
-        </div>
-    );
-} else {
-    return(
-        <div>
-            <h1>Big Screen</h1>
-            <h5>{innerWidth}</h5>
+           <ul>
+            <li className={profileChoice === 'account' ? 'tab--active' : 'tab--inactive'} onClick={()=>setProfileChoice('account')} >Account</li>
+            <li className={profileChoice === 'payment' ? 'tab--active' : 'tab--inactive'} onClick={()=>setProfileChoice('payment')}>payment methods</li>
+            <li className={profileChoice === 'orders' ? 'tab--active' : 'tab--inactive'} onClick={()=>setProfileChoice('orders')}>Orders</li>
+           </ul>
+           {profileComponent}
         </div>
     );
 }
 
 
-
     
-};
+
 
 export default ProfilePage;

@@ -17,17 +17,8 @@ const Navbar = () => {
 
   if (innerWidth < 500){
     return(
-      <div className="navBar">
-        <ul>
-          <li>
-          <Link to="/" style={{ textDecoration: "none", color: "white" }}><b>Ec</b></Link>
-          </li>
-          <li>
-          <button onClick={handleToggle}>{menuBarOpen ? "Close" : "Open"}</button>
-          <ul className={`menuNav ${menuBarOpen ? "showMenu" : ""}`} ></ul>
-
-          </li>
-        </ul>
+      <div>
+        
         
       </div>
     );
