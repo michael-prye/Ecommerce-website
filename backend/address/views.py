@@ -7,14 +7,24 @@ from rest_framework.response import Response
 from .models import Address
 from .serializers import AddressSerializer
 
-@api_view(['GET'])
+@api_view(['GET','POST'])
 @permission_classes([IsAuthenticated])
-def get_address(request):
-   # address_id = request.query_parms.get('id')
-    queryset = Address.objects.all()
+def address_list(request):
 
-    queryset = queryset.filter(user_id=request.user.id)
-    serializer = AddressSerializer(queryset, many=True)
-    return Response(serializer.data, status=status.HTTP_200_OK)
+    if request.method == "GET":
+        queryset = Address.objects.all()
+        queryset = queryset.filter(user_id=request.user.id)
+        serializer = AddressSerializer(queryset, many=True)
+        return Response(serializer.data, status=status.HTTP_200_OK)
+
+    elif request.method == "POST":
+        serializer = AddressSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save(user=request.user)
+            return Response(serializer.data,status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+
 
     
