@@ -8,7 +8,7 @@ from django.shortcuts import get_object_or_404
 from .models import Product, Category
 from .serializers import ProductSerializer, CategorySerializer
 
-@api_view(['POST'])
+@api_view(['POST', 'GET'])
 @permission_classes([IsAuthenticated])
 def product_category(request):
     if request.method == "POST":
@@ -18,5 +18,8 @@ def product_category(request):
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
     if request.method == "GET":
+        queryset = Category.objects.all()
+        serializer = CategorySerializer(queryset, many=True)
+        return Response(serializer.data, status=status.HTTP_200_OK)
         
         
