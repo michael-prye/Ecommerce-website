@@ -14,7 +14,7 @@ from .serializers import AddressSerializer
 def address_list(request):
 
     if request.method == "GET":
-        queryset = Address.objects.all()
+        queryset = Address.objects.filter(user_id=request.user.id)
         queryset = queryset.filter(user_id=request.user.id)
         serializer = AddressSerializer(queryset, many=True)
         return Response(serializer.data, status=status.HTTP_200_OK)
