@@ -26,9 +26,21 @@ def product_category(request):
 @permission_classes([IsAuthenticated])
 def product_list(request):
     if request.method == 'GET':
-        queryset = Product.objects.all()
-        serializer = ProductSerializer(queryset, many=True)
-        return Response(serializer.data, status=status.HTTP_200_OK)
+        product_id = request.query_params.get('product')
+        category_id = request.query_params.get('category')
+
+        if product_id:
+            queryset = Product.objects.filter(id=product_id)
+            serializer = ProductSerializer(queryset, many=True)
+            return Response(serializer.data, status=status.HTTP_200_OK)
+        elif category_id:
+            queryset = Product.objects.filter(category=category_id)
+            serializer = ProductSerializer(queryset, many=True)
+            return Response(serializer.data, status=status.HTTP_200_OK)
+        else:
+            queryset = Product.objects.all()
+            serializer = ProductSerializer(queryset, many=True)
+            return Response(serializer.data, status=status.HTTP_200_OK)
     if request.method == 'POST':
         category_id = request.query_params.get('id')
         serializer = ProductSerializer(data=request.data)
