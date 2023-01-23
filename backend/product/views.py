@@ -37,6 +37,12 @@ def product_list(request):
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
+@api_view(['GET','POST'])
+@permission_classes([IsAuthenticated])
+def product_image(request):
+    return
+
+
 
 
         
