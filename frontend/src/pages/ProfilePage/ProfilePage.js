@@ -2,6 +2,7 @@ import React from "react";
 import { useEffect, useState } from "react";
 import useAuth from "../../hooks/useAuth";
 import useWindowSize from "../../hooks/useWindowSize";
+import ProfileAccount from "../../components/ProfileAccount/ProfileAccount";
 
 
 const ProfilePage = () => {
@@ -13,7 +14,7 @@ const [profileChoice, setProfileChoice] = useState('account')
     let profileComponent;
     switch(profileChoice){
         case 'account':
-            profileComponent = <h1>account</h1>
+            profileComponent = <ProfileAccount/>
             break;
         case 'payment':
             profileComponent = <h1>payment</h1>
@@ -22,7 +23,7 @@ const [profileChoice, setProfileChoice] = useState('account')
             profileComponent = <h1>orders</h1>
             break;
         default:
-            console.log('Not a vidlid choice')
+            console.log('Not a valid choice')
     }
 
 
@@ -34,8 +35,7 @@ const [profileChoice, setProfileChoice] = useState('account')
             <li className={profileChoice === 'orders' ? 'tab--active' : 'tab--inactive'} onClick={()=>setProfileChoice('orders')}>Orders</li>
            </ul>
            {profileComponent}
-           {user.is_employee ?
-           <h1>i am a</h1> :'not true'}
+           
         </div>
     );
 }
