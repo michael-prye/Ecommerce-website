@@ -5,8 +5,8 @@ from rest_framework import status
 from rest_framework.response import Response
 from django.shortcuts import get_object_or_404
 
-from .models import Product, Category
-from .serializers import ProductSerializer, CategorySerializer
+from .models import Product, Category, ProductImage
+from .serializers import ProductSerializer, CategorySerializer, ImageSerializer
 
 @api_view(['POST', 'GET'])
 @permission_classes([IsAuthenticated])
@@ -52,7 +52,21 @@ def product_list(request):
 @api_view(['GET','POST'])
 @permission_classes([IsAuthenticated])
 def product_image(request):
-    return
+    if request.method == 'GET':
+        product_id = request.query_params.get('product')
+        if product_id:
+            queryset = ProductImage.objects.filter(product=product_id)
+            serializer = ImageSerializer(queryset, many=True)
+            return Response(serializer.data, status=status.HTTP_200_OK)
+    if request.method=='POST':
+        product_id = request.query_params.get('product')
+        serializer = ImageSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save(product_id=product_id)
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
 
 
 
