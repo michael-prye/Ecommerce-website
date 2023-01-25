@@ -8,7 +8,6 @@ import Dropdown from 'react-bootstrap/Dropdown'
 
 const Navbar = () => {
   const { logoutUser, user } = useContext(AuthContext);
-  const [menuBarOpen, setMenuBarOpen] = useState(false);
   const navigate = useNavigate();
   const innerWidth = useWindowSize();
 
@@ -18,7 +17,7 @@ const Navbar = () => {
     <div className="navBar">
       <ul>
         <li>
-          <button onClick={()=> navigate("/")}>Ecommerse</button>
+          <a onClick={()=> navigate("/")}>Ecommerse</a>
         </li>
         
           {user ? (

@@ -12,9 +12,11 @@ function setUserObject(user) {
     return null;
   }
   return {
-    username: user.username,
     id: user.user_id,
+    username: user.username,
     first_name: user.first_name,
+    last_name: user.last_name,
+    email: user.email,
     is_employee: user.is_employee
   };
 }
