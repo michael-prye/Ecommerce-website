@@ -34,9 +34,9 @@ const HomePage = () => {
     <div className="container">
       <h1>Home Page for {user.username}!</h1>
       {user.is_employee ?(
-        <h2>Customer</h2>
+        <h2>is_employee </h2>
       ):(
-        <h2>is_employee</h2>
+        <h2>Customer</h2>
       )}
       
     </div>
