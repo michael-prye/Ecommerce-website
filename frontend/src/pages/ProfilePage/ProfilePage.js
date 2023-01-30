@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import useAuth from "../../hooks/useAuth";
 import useWindowSize from "../../hooks/useWindowSize";
 import ProfileAccount from "../../components/ProfileAccount/ProfileAccount";
+import ProfileAddresses from "../../components/ProfileAddresses/ProfileAddresses";
 
 
 const ProfilePage = () => {
@@ -15,6 +16,9 @@ const [profileChoice, setProfileChoice] = useState('account')
     switch(profileChoice){
         case 'account':
             profileComponent = <ProfileAccount/>
+            break;
+        case 'addresses':
+            profileComponent = <ProfileAddresses/>
             break;
         case 'payment':
             profileComponent = <h1>payment</h1>
@@ -31,6 +35,7 @@ const [profileChoice, setProfileChoice] = useState('account')
         <div>
            <ul>
             <li className={profileChoice === 'account' ? 'tab--active' : 'tab--inactive'} onClick={()=>setProfileChoice('account')} >Account</li>
+            <li className={profileChoice === 'addresses' ? 'tab--active' : 'tab--inactive'} onClick={()=>setProfileChoice('addresses')} >Addresses</li>
             <li className={profileChoice === 'payment' ? 'tab--active' : 'tab--inactive'} onClick={()=>setProfileChoice('payment')}>payment methods</li>
             <li className={profileChoice === 'orders' ? 'tab--active' : 'tab--inactive'} onClick={()=>setProfileChoice('orders')}>Orders</li>
            </ul>
