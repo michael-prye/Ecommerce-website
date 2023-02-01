@@ -5,7 +5,8 @@ import useAuth from "../../hooks/useAuth";
 const ProfileAddresses = () => {
 
     const [user, token] = useAuth();
-    const [addresses, setAddresses] =useState(null)
+    const [addresses, setAddresses] =useState([])
+    const [createAddressModal, setCreateAddressModal] =useState(false)
 
 
     async function getAddress(){
@@ -24,11 +25,25 @@ const ProfileAddresses = () => {
 
     return ( 
         <div>
-            <div className="addresses">
-                {addresses.map((address)=>(
-                    <h1>{address.street}</h1>
+            <button onClick={()=>setCreateAddressModal(true)}>Add Address</button>
+            {addresses.length ? (
+                <div>
+                    {addresses.map((address)=>(
+                <div className="account-card">
+                    <p>{address.street}</p>
+                    <p>{address.city}, {address.state} {address.zip_code}</p>
+                    <button>edit</button>
+                    <button>delete</button>
+                </div>
                 ))}
-            </div>
+                    </div>
+                ) :(
+                    <h1>
+                        NO ADDRESS
+                    </h1>
+                )}
+                
+            
 
         </div>
      );

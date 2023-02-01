@@ -1,6 +1,8 @@
 import React, { useContext } from "react";
 import AuthContext from "../../context/AuthContext";
 import useCustomForm from "../../hooks/useCustomForm";
+import { useState } from "react";
+
 
 const RegisterPage = () => {
   const { registerUser } = useContext(AuthContext);
@@ -10,11 +12,14 @@ const RegisterPage = () => {
     password: "",
     firstName: "",
     lastName: "",
+    is_employee: false
   };
   const [formData, handleInputChange, handleSubmit] = useCustomForm(
     defaultValues,
     registerUser
   );
+
+
 
   return (
     <div className="container">
@@ -63,6 +68,18 @@ const RegisterPage = () => {
             value={formData.password}
             onChange={handleInputChange}
           />
+        </label>
+        <label>
+          Customer
+          <input type='checkbox'>
+            
+          </input>
+        </label>
+        <label>
+          Employee
+          <input type='checkbox'>
+            
+          </input>
         </label>
         <p style={{ fontSize: "12px" }}>
           NOTE: Make this an uncommon password with characters, numbers, and
