@@ -1,11 +1,18 @@
 import React from "react";
 import { useEffect, useState } from "react";
 import useAuth from "../../hooks/useAuth";
+import { Modal } from "react-bootstrap";
 
 const ProfileAddresses = () => {
 
     const [user, token] = useAuth();
     const [addresses, setAddresses] =useState([])
+    const [addressInfo, setAddressInfo] = useState({
+        street:"",
+        city:"",
+        state:"",
+        zip_code:null,
+    });
     const [createAddressModal, setCreateAddressModal] =useState(false)
 
 
@@ -26,6 +33,11 @@ const ProfileAddresses = () => {
     return ( 
         <div>
             <button onClick={()=>setCreateAddressModal(true)}>Add Address</button>
+            <Modal show={createAddressModal} onHide={()=>setCreateAddressModal(false)} centered={true}>
+                <Modal.Header closeButton>
+                    <Modal.Title>Enter An address</Modal.Title>
+                </Modal.Header>
+            </Modal>
             {addresses.length ? (
                 <div>
                     {addresses.map((address)=>(

@@ -16,7 +16,7 @@ const ProfileAccount = () => {
                <div className="body">
                 <div className="info-group">
                     <h3>Name</h3>
-                    <p>{user.first_name} {user.last_name}</p>
+                    <p>{user.id} {user.last_name}</p>
                 </div>
                 <div className="info-group">
                     <h3>Username</h3>
