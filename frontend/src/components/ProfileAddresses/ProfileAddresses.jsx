@@ -2,33 +2,30 @@ import React from "react";
 import { useEffect, useState } from "react";
 import useAuth from "../../hooks/useAuth";
 import { Modal } from "react-bootstrap";
+import useFetch from "../../hooks/useFetch";
 
 const ProfileAddresses = () => {
 
     const [user, token] = useAuth();
-    const [addresses, setAddresses] =useState([])
-    const [addressInfo, setAddressInfo] = useState({
-        street:"",
-        city:"",
-        state:"",
-        zip_code:null,
-    });
+    //const [addresses, setAddresses] =useState([])
     const [createAddressModal, setCreateAddressModal] =useState(false)
+    const [addresses,getAddress] = useFetch('http://127.0.0.1:8000/api/address/','GET',null)
 
 
-    async function getAddress(){
-        const response = await fetch('http://127.0.0.1:8000/api/address/',{
-            headers:{
-                Authorization: 'Bearer ' + token
-            }
-        })
-        .then((response)=> response.json())
-        .then((data) => setAddresses(data), )
-    }
+    // async function getAddress(){
+    //     const response = await fetch('http://127.0.0.1:8000/api/address/',{
+    //         headers:{
+    //             Authorization: 'Bearer ' + token
+    //         }
+    //     })
+    //     .then((response)=> response.json())
+    //     .then((data) => setAddresses(data))
+    // }
 
     useEffect(()=>{
         getAddress();
-    }, [])
+    },[])
+
 
     return ( 
         <div>
