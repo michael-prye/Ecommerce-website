@@ -38,7 +38,7 @@ export const AuthProvider = ({ children }) => {
         email: registerData.email,
         first_name: registerData.firstName,
         last_name: registerData.lastName,
-        is_employee: true
+        is_employee: registerData.isEmployee
       };
       let response = await axios.post(`${BASE_URL}/register/`, finalData);
       if (response.status === 201) {
@@ -50,6 +50,7 @@ export const AuthProvider = ({ children }) => {
       }
     } catch (error) {
       console.log(error.response.data);
+      console.log(registerData);
     }
   };
 
