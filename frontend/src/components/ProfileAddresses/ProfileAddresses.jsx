@@ -7,33 +7,90 @@ import useFetch from "../../hooks/useFetch";
 const ProfileAddresses = () => {
 
     const [user, token] = useAuth();
-    //const [addresses, setAddresses] =useState([])
     const [createAddressModal, setCreateAddressModal] =useState(false)
+    const defaultAddress = {street: "", city: "", state: "", zip_code:null}
+    const [addressForm, setAddressForm] = useState(defaultAddress)
     const [addresses,getAddress] = useFetch('http://127.0.0.1:8000/api/address/','GET',null)
+    const [data, sendPostAddress] = useFetch('http://127.0.0.1:8000/api/address/', 'POST', addressForm)
 
 
-    // async function getAddress(){
-    //     const response = await fetch('http://127.0.0.1:8000/api/address/',{
-    //         headers:{
-    //             Authorization: 'Bearer ' + token
-    //         }
-    //     })
-    //     .then((response)=> response.json())
-    //     .then((data) => setAddresses(data))
-    // }
+
 
     useEffect(()=>{
         getAddress();
-    },[])
+    },[addresses])
+
+    const handleInputChange = (e)=>{
+        e.persist();
+        setAddressForm({...addressForm, [e.target.name]: e.target.value})
+        console.log(addressForm)
+    }
+    const handleShow=()=>{
+        setCreateAddressModal(true)
+    }
+    const handleClose=()=>{
+        setCreateAddressModal(false)
+        setAddressForm(defaultAddress)
+    }
+    const handlePost=()=>{
+        sendPostAddress();
+        getAddress();
+        handleClose();
+
+    }
 
 
     return ( 
         <div>
             <button onClick={()=>setCreateAddressModal(true)}>Add Address</button>
-            <Modal show={createAddressModal} onHide={()=>setCreateAddressModal(false)} centered={true}>
+            <Modal show={createAddressModal} onHide={handleClose} centered={true}>
                 <Modal.Header closeButton>
                     <Modal.Title>Enter An address</Modal.Title>
                 </Modal.Header>
+                <Modal.Body>
+                    <form className="address-form">
+                        <label>
+                            Street:{" "}
+                            <input
+                            type="text"
+                            name="street"
+                            value={addressForm.street}
+                            onChange={handleInputChange}
+                            />
+                        </label>
+                        <label>
+                            City:{" "}
+                            <input
+                            type="text"
+                            name="city"
+                            value={addressForm.city}
+                            onChange={handleInputChange}
+                            />
+                        </label>
+                        <label>
+                            State:{" "}
+                            <input
+                            type="text"
+                            name="state"
+                            value={addressForm.state}
+                            onChange={handleInputChange}
+                            />
+                        </label>
+                        <label>
+                            Zip Code:{}
+                            <input
+                            type="number"
+                            name="zip_code"
+                            value={addressForm.zip_code}
+                            onChange={handleInputChange}
+                            />
+                        </label>
+                    </form>
+                </Modal.Body>
+                <Modal.Footer>
+                    <button onClick={handleClose}> Cancel</button>
+                    <button onClick={handlePost}> SAVE</button>
+                </Modal.Footer>
             </Modal>
             {addresses.length ? (
                 <div>

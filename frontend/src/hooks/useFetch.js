@@ -8,19 +8,27 @@ const useFetch = (url,method,formData) => {
     const [error, setError] = useState(null)
 
     const fetchRequest = async ()=>{
-        if (method == 'GET'){
+        //console.log(formData)
+        try{
             const response = await fetch(url,{
-                headers:{Authorization: 'Bearer ' + token}
+                method: method,
+                headers:{Authorization: 'Bearer ' + token,
+                'Content-Type': 'application/json'},
+                body: formData? JSON.stringify(formData) :null
             })
             .then((response)=> response.json())
             .then((data)=> setData(data))
+        } catch(error){
+            console.log("ERROR: ", error)
         }
+        
+        
         
     }
 
 
 
-        return [data, fetchRequest, data]
+        return [data, fetchRequest]
   
 }
  
