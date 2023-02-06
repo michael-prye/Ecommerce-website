@@ -10,31 +10,30 @@ const ProfileAddresses = () => {
     const [createAddressModal, setCreateAddressModal] =useState(false)
     const defaultAddress = {street: "", city: "", state: "", zip_code:null}
     const [addressForm, setAddressForm] = useState(defaultAddress)
-    const [addresses,getAddress] = useFetch('http://127.0.0.1:8000/api/address/','GET',null)
-    const [data, sendPostAddress] = useFetch('http://127.0.0.1:8000/api/address/', 'POST', addressForm)
+    const [addresses,getLoading,getAddress] = useFetch('http://127.0.0.1:8000/api/address/','GET',null)
+    const [data,postLoading, sendPostAddress] = useFetch('http://127.0.0.1:8000/api/address/', 'POST', addressForm)
 
 
 
 
     useEffect(()=>{
         getAddress();
-    },[addresses])
+    },[])
 
     const handleInputChange = (e)=>{
         e.persist();
         setAddressForm({...addressForm, [e.target.name]: e.target.value})
-        console.log(addressForm)
+        //console.log(addressForm)
     }
-    const handleShow=()=>{
-        setCreateAddressModal(true)
-    }
+ 
     const handleClose=()=>{
         setCreateAddressModal(false)
         setAddressForm(defaultAddress)
     }
     const handlePost=()=>{
-        sendPostAddress();
-        getAddress();
+       sendPostAddress();
+       setTimeout(()=>{getAddress();
+       },500) 
         handleClose();
 
     }

@@ -6,9 +6,9 @@ const useFetch = (url,method,formData) => {
     const [user, token] = useAuth();
     const [data, setData] = useState([])
     const [error, setError] = useState(null)
+    const [loading, setLoading] = useState(null)
 
     const fetchRequest = async ()=>{
-        //console.log(formData)
         try{
             const response = await fetch(url,{
                 method: method,
@@ -17,18 +17,19 @@ const useFetch = (url,method,formData) => {
                 body: formData? JSON.stringify(formData) :null
             })
             .then((response)=> response.json())
-            .then((data)=> setData(data))
+            .then((data)=>setData(data))
+            .then(()=>setLoading(false))
         } catch(error){
             console.log("ERROR: ", error)
         }
         
         
-        
+       console.log(loading) 
     }
 
 
 
-        return [data, fetchRequest]
+        return [data,loading, fetchRequest]
   
 }
  
