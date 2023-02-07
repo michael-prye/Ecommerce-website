@@ -6,7 +6,6 @@ const useFetch = (url,method,formData) => {
     const [user, token] = useAuth();
     const [data, setData] = useState([])
     const [error, setError] = useState(null)
-    const [loading, setLoading] = useState(null)
 
     const fetchRequest = async ()=>{
         try{
@@ -17,19 +16,19 @@ const useFetch = (url,method,formData) => {
                 body: formData? JSON.stringify(formData) :null
             })
             .then((response)=> response.json())
-            .then((data)=>setData(data))
-            .then(()=>setLoading(false))
+            .then((data)=>setData(data)
+             )
         } catch(error){
             console.log("ERROR: ", error)
         }
         
         
-       console.log(loading) 
+        
     }
 
 
 
-        return [data,loading, fetchRequest]
+        return [data, fetchRequest]
   
 }
  

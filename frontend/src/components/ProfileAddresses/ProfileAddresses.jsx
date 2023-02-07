@@ -10,13 +10,14 @@ const ProfileAddresses = () => {
     const [createAddressModal, setCreateAddressModal] =useState(false)
     const defaultAddress = {street: "", city: "", state: "", zip_code:null}
     const [addressForm, setAddressForm] = useState(defaultAddress)
-    const [addresses,getLoading,getAddress] = useFetch('http://127.0.0.1:8000/api/address/','GET',null)
-    const [data,postLoading, sendPostAddress] = useFetch('http://127.0.0.1:8000/api/address/', 'POST', addressForm)
+    const [addresses,getAddress] = useFetch('http://127.0.0.1:8000/api/address/','GET',null)
+    const [data, sendPostAddress] = useFetch('http://127.0.0.1:8000/api/address/', 'POST', addressForm)
 
 
 
 
     useEffect(()=>{
+        
         getAddress();
     },[])
 
@@ -30,18 +31,19 @@ const ProfileAddresses = () => {
         setCreateAddressModal(false)
         setAddressForm(defaultAddress)
     }
-    const handlePost=()=>{
-       sendPostAddress();
-       setTimeout(()=>{getAddress();
-       },500) 
-        handleClose();
+    const handlePost= async()=>{
 
+        await sendPostAddress();
+        await getAddress();
+        handleClose();
     }
 
 
     return ( 
         <div>
             <button onClick={()=>setCreateAddressModal(true)}>Add Address</button>
+            
+
             <Modal show={createAddressModal} onHide={handleClose} centered={true}>
                 <Modal.Header closeButton>
                     <Modal.Title>Enter An address</Modal.Title>
