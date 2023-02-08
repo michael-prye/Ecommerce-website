@@ -8,10 +8,13 @@ const ProfileAddresses = () => {
 
     const [user, token] = useAuth();
     const [newAddressModal, setNewAddressModal] =useState(false)
+    const [deleteAddressModal, setDeleteAddressModal] = useState(false)
     const defaultAddress = {street: "", city: "", state: "", zip_code:0}
     const [addressForm, setAddressForm] = useState(defaultAddress)
     const [addresses,getAddress] = useFetch('http://127.0.0.1:8000/api/address/','GET',null)
     const [data, sendPostAddress] = useFetch('http://127.0.0.1:8000/api/address/', 'POST', addressForm)
+    const [x, sendDeleteAddress] = useFetch('http://127.0.0.1:8000/api/address/', 'DELETE', null)
+
 
     useEffect(()=>{
         getAddress(); // To load users address
@@ -32,6 +35,8 @@ const ProfileAddresses = () => {
         await getAddress();
         handleClose();
     }
+
+
 
 
     return ( 
@@ -95,7 +100,8 @@ const ProfileAddresses = () => {
                     <p>{address.street}</p>
                     <p>{address.city}, {address.state} {address.zip_code}</p>
                     <button>edit</button>
-                    <button>delete</button>
+                    <button onClick={()=>{sendDeleteAddress(address.id)}}>delete</button>
+                    
                 </div>
                 ))}
                     </div>
