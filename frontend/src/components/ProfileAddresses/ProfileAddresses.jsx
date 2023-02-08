@@ -7,31 +7,26 @@ import useFetch from "../../hooks/useFetch";
 const ProfileAddresses = () => {
 
     const [user, token] = useAuth();
-    const [createAddressModal, setCreateAddressModal] =useState(false)
-    const defaultAddress = {street: "", city: "", state: "", zip_code:null}
+    const [newAddressModal, setNewAddressModal] =useState(false)
+    const defaultAddress = {street: "", city: "", state: "", zip_code:0}
     const [addressForm, setAddressForm] = useState(defaultAddress)
     const [addresses,getAddress] = useFetch('http://127.0.0.1:8000/api/address/','GET',null)
     const [data, sendPostAddress] = useFetch('http://127.0.0.1:8000/api/address/', 'POST', addressForm)
 
-
-
-
     useEffect(()=>{
-        
-        getAddress();
+        getAddress(); // To load users address
     },[])
 
-    const handleInputChange = (e)=>{
+    const handleInputChange = (e)=>{ 
         e.persist();
         setAddressForm({...addressForm, [e.target.name]: e.target.value})
-        //console.log(addressForm)
     }
  
-    const handleClose=()=>{
-        setCreateAddressModal(false)
+    const handleClose=()=>{ // to close newAddressModal and clear AddressForm
+        setNewAddressModal(false)
         setAddressForm(defaultAddress)
     }
-    const handlePost= async()=>{
+    const handlePost= async()=>{ // 
 
         await sendPostAddress();
         await getAddress();
@@ -41,10 +36,10 @@ const ProfileAddresses = () => {
 
     return ( 
         <div>
-            <button onClick={()=>setCreateAddressModal(true)}>Add Address</button>
+            <button onClick={()=>setNewAddressModal(true)}>Add Address</button>
             
 
-            <Modal show={createAddressModal} onHide={handleClose} centered={true}>
+            <Modal show={newAddressModal} onHide={handleClose} centered={true}>
                 <Modal.Header closeButton>
                     <Modal.Title>Enter An address</Modal.Title>
                 </Modal.Header>
