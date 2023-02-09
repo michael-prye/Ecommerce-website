@@ -9,7 +9,7 @@ from django.shortcuts import get_object_or_404
 from .models import Address
 from .serializers import AddressSerializer
 
-@api_view(['GET','POST','DELETE'])
+@api_view(['GET','POST','DELETE','PUT'])
 @permission_classes([IsAuthenticated])
 def address_list(request):
 
@@ -30,6 +30,15 @@ def address_list(request):
         queryset = get_object_or_404(Address, id =address_id)
         queryset.delete()
         return Response(status=status.HTTP_202_ACCEPTED)
+    elif request.method == 'PUT':
+        address_id = request.query_params.get('id')
+        queryset = get_object_or_404(Address, id =address_id)
+        serializer = AddressSerializer(queryset, data=request.data, partial=True)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_200_OK)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+        
 
 
 
