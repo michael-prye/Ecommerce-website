@@ -9,11 +9,11 @@ const ProfileAddresses = () => {
     const [user, token] = useAuth();
     const [newAddressModal, setNewAddressModal] =useState(false)
     const [deleteAddressModal, setDeleteAddressModal] = useState(false)
-    const defaultAddress = {street: "", city: "", state: "", zip_code:0}
+    const defaultAddress = {street: "", city: "", state: "", zip_code:""}
     const [addressForm, setAddressForm] = useState(defaultAddress)
     const [addresses,getAddress] = useFetch('http://127.0.0.1:8000/api/address/','GET',null)
-    const [data, sendPostAddress] = useFetch('http://127.0.0.1:8000/api/address/', 'POST', addressForm)
-    const [x, sendDeleteAddress] = useFetch('http://127.0.0.1:8000/api/address/', 'DELETE', null)
+    const [postAddress, sendPostAddress] = useFetch('http://127.0.0.1:8000/api/address/', 'POST', addressForm)
+    const [deleteAddress, sendDeleteAddress] = useFetch('http://127.0.0.1:8000/api/address/', 'DELETE', null)
 
 
     useEffect(()=>{
@@ -30,10 +30,15 @@ const ProfileAddresses = () => {
         setAddressForm(defaultAddress)
     }
     const handlePost= async()=>{ // 
-
         await sendPostAddress();
         await getAddress();
         handleClose();
+    }
+
+    const handleDelete= async(id)=>{
+        await sendDeleteAddress(id);
+        await getAddress();
+        setDeleteAddressModal(false);
     }
 
 
@@ -100,7 +105,22 @@ const ProfileAddresses = () => {
                     <p>{address.street}</p>
                     <p>{address.city}, {address.state} {address.zip_code}</p>
                     <button>edit</button>
-                    <button onClick={()=>{sendDeleteAddress(address.id)}}>delete</button>
+                    <button onClick={()=>{setDeleteAddressModal(true)}}>delete</button>
+                    <Modal show={deleteAddressModal} onHide={()=>{setDeleteAddressModal(false)}}>
+                        <Modal.Header closeButton>
+                            <Modal.Title>Are you sure you want to delete this address?</Modal.Title>
+                        </Modal.Header>
+                        <Modal.Body>
+                        <p>{address.street}</p>
+                        <p>{address.city}, {address.state} {address.zip_code}</p>
+                        </Modal.Body>
+                        <Modal.Footer>
+                            <button onClick={()=>{setDeleteAddressModal(false)}}>Cancel</button>
+                            <button onClick={()=>{handleDelete(address.id)}}>Delete Address</button>
+
+                        </Modal.Footer>
+
+                    </Modal>
                     
                 </div>
                 ))}
