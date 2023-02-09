@@ -15,7 +15,7 @@ const ProfileAddresses = () => {
     const [addresses,getAddress] = useFetch('http://127.0.0.1:8000/api/address/','GET',null)
     const [postAddress, sendPostAddress] = useFetch('http://127.0.0.1:8000/api/address/', 'POST', addressForm)
     const [deleteAddress, sendDeleteAddress] = useFetch('http://127.0.0.1:8000/api/address/', 'DELETE', null)
-    const [putAddress, sendPutAddress] = useFetch('http://127.0.0.1:8000/api/address/', 'DELETE', null)
+    const [putAddress, sendPutAddress] = useFetch('http://127.0.0.1:8000/api/address/', 'PUT', addressForm)
 
 
     useEffect(()=>{
@@ -50,6 +50,11 @@ const ProfileAddresses = () => {
         setEditAddressModal(true)
     }
 
+    const handlePut = async(id)=>{
+        await sendPutAddress(id);
+        await getAddress();
+        handleClose()
+    }
 
 
 
@@ -156,7 +161,7 @@ const ProfileAddresses = () => {
                     </form>
                 </Modal.Body>
                 <Modal.Footer>
-                    <button onClick={()=>{console.log(addressForm)}}>SAVE</button>
+                    <button onClick={()=>{handlePut(address.id)}}>SAVE</button>
                 </Modal.Footer>
                         
                     </Modal>
