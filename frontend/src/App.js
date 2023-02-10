@@ -9,6 +9,7 @@ import HomePage from "./pages/HomePage/HomePage";
 import LoginPage from "./pages/LoginPage/LoginPage";
 import RegisterPage from "./pages/RegisterPage/RegisterPage";
 import ProfilePage from "./pages/ProfilePage/ProfilePage";
+import AdminPage from "./pages/AdminPage/AdminPage";
 
 // Component Imports
 import Navbar from "./components/NavBar/NavBar";
@@ -24,6 +25,7 @@ function App() {
       <Routes>
         <Route path="/" element={<PrivateRoute><HomePage /></PrivateRoute>}/>
         <Route path="/profile" element={<PrivateRoute><ProfilePage/></PrivateRoute>}/>
+        <Route path="/admin" element={<PrivateRoute><AdminPage/></PrivateRoute>}/>
         <Route path="/register" element={<RegisterPage />} />
         <Route path="/login" element={<LoginPage />} />
       </Routes>

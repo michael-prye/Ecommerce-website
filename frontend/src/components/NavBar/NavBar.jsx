@@ -29,7 +29,7 @@ const Navbar = () => {
               <Dropdown.Menu>
                 <Dropdown.Item  onClick={() => navigate("/profile")}> ACCOUNT</Dropdown.Item>
                 {user.is_employee == true &&
-                <Dropdown.Item>ADMIN</Dropdown.Item>
+                <Dropdown.Item onClick={()=>{navigate("/admin")}}>ADMIN</Dropdown.Item>
                 }
                 <Dropdown.Item  onClick={logoutUser}> Logout</Dropdown.Item>
                 
