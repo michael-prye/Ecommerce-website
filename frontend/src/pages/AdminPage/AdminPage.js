@@ -1,13 +1,15 @@
 import React from "react";
 import { useEffect, useState } from "react";
 
+import NewProduct from "../../components/NewProduct/NewProduct";
+
 const AdminPage = () => {
     const [adminChoice, setAdminChoice] = useState('productList')
 
     let adminComponent;
     switch(adminChoice){
         case 'newProduct':
-            adminComponent = <h1>New Product</h1>
+            adminComponent = <NewProduct/>
             break;
         case 'productList':
             adminComponent = <h1>Product List</h1>
