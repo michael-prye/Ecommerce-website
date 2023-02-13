@@ -10,11 +10,21 @@ const NewProduct = () => {
     const defaultProductInfo = {name:"",description:"", price:""}
     const [productForm, setProductForm] = useState(defaultProductInfo)
     const [categories, getCategories] = useFetch('http://127.0.0.1:8000/api/product/category', 'GET',null)
+    const [selectedCategory, setSelectedCategory] = useState()
     
 
     useEffect(()=>{
         getCategories();
     },[])
+
+    const handleCategory=(e) =>{
+        setSelectedCategory(e.target.value)
+    }
+    const handleProductForm = (e)=>{
+        e.persist();
+        setProductForm({...productForm, [e.target.name]: e.target.value})
+        console.log(productForm)
+    }
 
 
 
@@ -30,20 +40,20 @@ const NewProduct = () => {
                 <form className="product-form">
                     <label>
                         name:
-                        <input type="text" name="name" value={productForm.name}/>
+                        <input type="text" name="name" value={productForm.name} onChange={handleProductForm}/>
                     </label>
                     <label>
                         description:
-                        <input type="text" name="description" value={productForm.description}/>
+                        <input type="text" name="description" value={productForm.description} onChange={handleProductForm}/>
                     </label>
                     <label>
                         price:
-                        <input type="text" name="price" value={productForm.price}/>
+                        <input type="text" name="price" value={productForm.price} onChange={handleProductForm}/>
                     </label>
-                    <select>
+                    <select onChange={handleCategory}>
                         <option value="" disabled selected>Select a category</option>
                         {categories.map((category) =>(
-                            <option value={category.name}>{category.name}</option>
+                            <option value={category.id}>{category.name}</option>
 
                         ))}
                     </select>
