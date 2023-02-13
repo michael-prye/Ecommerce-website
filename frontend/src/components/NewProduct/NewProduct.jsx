@@ -1,9 +1,20 @@
 import { useEffect, useState } from "react";
-import Form from 'react-bootstrap/Form';
-import Accordion from 'react-bootstrap/Accordion';
+import { useContext } from "react";
+import AuthContext from "../../context/AuthContext";
+import useFetch from "../../hooks/useFetch";
 
 
 const NewProduct = () => {
+    const [productInfoTab, setProductInfoTab] = useState(true)
+    const {user} = useContext(AuthContext);
+    const defaultProductInfo = {name:"",description:"", price:""}
+    const [productForm, setProductForm] = useState(defaultProductInfo)
+    const [categories, getCategories] = useFetch('http://127.0.0.1:8000/api/product/category', 'GET',null)
+    
+
+    useEffect(()=>{
+        getCategories();
+    },[])
 
 
 
@@ -13,25 +24,40 @@ const NewProduct = () => {
     return(
         <div>
             <h1>Add New Product</h1>
-            <Accordion defaultActiveKey='0'>
-                <Accordion.Item eventKey="0">
-                    <Accordion.Header>Product Info</Accordion.Header>
-                    <Accordion.Body>
-                        <form className="product-form">
-                            <label>
-                                Name:{""}
-                                <input
+            <div className="product-info">
+                <button onClick={()=>{setProductInfoTab(!productInfoTab)}}>tab 1</button>
+                {productInfoTab == true && 
+                <form className="product-form">
+                    <label>
+                        name:
+                        <input type="text" name="name" value={productForm.name}/>
+                    </label>
+                    <label>
+                        description:
+                        <input type="text" name="description" value={productForm.description}/>
+                    </label>
+                    <label>
+                        price:
+                        <input type="text" name="price" value={productForm.price}/>
+                    </label>
+                    <select>
+                        <option value="" disabled selected>Select a category</option>
+                        {categories.map((category) =>(
+                            <option value={category.name}>{category.name}</option>
 
-                                />
-                            </label>
-                        </form>
-                    </Accordion.Body>
-                </Accordion.Item>
-                <Accordion.Item eventKey="1">
-                    <Accordion.Header>Product IMAGES</Accordion.Header>
-                </Accordion.Item>
+                        ))}
+                    </select>
+                </form>
+                
+                    
+                }
 
-            </Accordion>
+                
+            </div>
+            <div className="product-images">
+
+            </div>
+
 
 
 
