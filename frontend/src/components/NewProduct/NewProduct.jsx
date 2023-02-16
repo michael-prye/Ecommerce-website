@@ -42,7 +42,8 @@ const NewProduct = () => {
     }
     const handlePostProduct = async()=>{
         await sendPostProduct(selectedCategory);
-        console.log(postProduct)
+        setProductForm(defaultProductInfo)
+        setSelectedCategory("")
 
     }
 
@@ -70,7 +71,7 @@ const NewProduct = () => {
                         price:
                         <input type="text" name="price" value={productForm.price} onChange={handleProductForm}/>
                     </label>
-                    <select onChange={handleCategory}>
+                    <select value={selectedCategory} onChange={handleCategory}>
                         <option value="" disabled selected>Select a category</option>
                         {categories.map((category) =>(
                             <option value={category.id}>{category.name}</option>
@@ -88,6 +89,7 @@ const NewProduct = () => {
                     </div>
                         
                     }
+                    <button onClick={handlePostProduct}>SAVE PRODUCT</button>
                 </div>
                 
                     
