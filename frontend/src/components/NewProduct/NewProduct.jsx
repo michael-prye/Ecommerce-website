@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { useContext } from "react";
 import AuthContext from "../../context/AuthContext";
 import useFetch from "../../hooks/useFetch";
+import { Alert } from "react-bootstrap";
 
 
 const NewProduct = () => {
@@ -15,6 +16,7 @@ const NewProduct = () => {
     const [postProduct, sendPostProduct] = useFetch('http://127.0.0.1:8000/api/product/','POST',productForm)
     const [selectedCategory, setSelectedCategory] = useState()
     const [addCategory, setAddCategory] = useState(false)
+    const [productInfoAlert, setProductInfoAlert] = useState(false)
     
 
     useEffect(()=>{
@@ -44,7 +46,8 @@ const NewProduct = () => {
         await sendPostProduct(selectedCategory);
         setProductForm(defaultProductInfo)
         setSelectedCategory("")
-
+        setProductInfoAlert(true)
+        setTimeout(()=> setProductInfoAlert(false),2000 )
     }
 
 
@@ -90,7 +93,12 @@ const NewProduct = () => {
                         
                     }
                     <button onClick={handlePostProduct}>SAVE PRODUCT</button>
+                    <Alert show={productInfoAlert} variant="success" onClose={()=>setProductInfoAlert(false)} dismissible>
+                        <Alert.Heading>Product information saved</Alert.Heading>
+
+                    </Alert>
                 </div>
+
                 
                     
                 }
