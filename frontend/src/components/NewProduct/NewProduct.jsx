@@ -58,8 +58,12 @@ const NewProduct = () => {
     return(
         <div>
             <h1>Add New Product</h1>
+            <Alert show={productInfoAlert} variant="success" onClose={()=>setProductInfoAlert(false)} dismissible>
+                <Alert.Heading>Product information saved</Alert.Heading>
+            </Alert>
             <div className="product-info">
-                <button onClick={()=>{setProductInfoTab(!productInfoTab)}}>tab 1</button>
+                <button onClick={()=>{setProductInfoTab(!productInfoTab)}}>product information</button>
+                
                 {productInfoTab == true && 
                 <div className="product-form">
                     <label>
@@ -93,10 +97,7 @@ const NewProduct = () => {
                         
                     }
                     <button onClick={handlePostProduct}>SAVE PRODUCT</button>
-                    <Alert show={productInfoAlert} variant="success" onClose={()=>setProductInfoAlert(false)} dismissible>
-                        <Alert.Heading>Product information saved</Alert.Heading>
 
-                    </Alert>
                 </div>
 
                 
