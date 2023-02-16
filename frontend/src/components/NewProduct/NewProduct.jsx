@@ -9,8 +9,11 @@ const NewProduct = () => {
     const {user} = useContext(AuthContext);
     const defaultProductInfo = {name:"",description:"", price:""}
     const [productForm, setProductForm] = useState(defaultProductInfo)
+    const [categoryForm, setCategoryForm] = useState({name:""})
     const [categories, getCategories] = useFetch('http://127.0.0.1:8000/api/product/category', 'GET',null)
+    const [postCategory, sendPostCategory] = useFetch('http://127.0.0.1:8000/api/product/category','POST',categoryForm)
     const [selectedCategory, setSelectedCategory] = useState()
+    const [addCategory, setAddCategory] = useState(false)
     
 
     useEffect(()=>{
@@ -19,11 +22,22 @@ const NewProduct = () => {
 
     const handleCategory=(e) =>{
         setSelectedCategory(e.target.value)
+        console.log(selectedCategory)
+    }
+    const handleCategoryForm=(e) =>{
+        e.persist();
+        setCategoryForm({...categoryForm, [e.target.name]: e.target.value})
+        console.log(categoryForm)
     }
     const handleProductForm = (e)=>{
         e.persist();
         setProductForm({...productForm, [e.target.name]: e.target.value})
         console.log(productForm)
+    }
+    const handlePostCategory = async()=>{
+        await sendPostCategory();
+        await getCategories();
+        setAddCategory(false);
     }
 
 
@@ -37,7 +51,7 @@ const NewProduct = () => {
             <div className="product-info">
                 <button onClick={()=>{setProductInfoTab(!productInfoTab)}}>tab 1</button>
                 {productInfoTab == true && 
-                <form className="product-form">
+                <div className="product-form">
                     <label>
                         name:
                         <input type="text" name="name" value={productForm.name} onChange={handleProductForm}/>
@@ -57,7 +71,18 @@ const NewProduct = () => {
 
                         ))}
                     </select>
-                </form>
+                    <button onClick={()=>setAddCategory(true)}>ADD</button>
+                    {addCategory == true &&
+                    <div>
+                        <label>
+                            Category:
+                            <input type="text" name="name" value={categoryForm.name} onChange={handleCategoryForm} />
+                        </label>
+                        <button onClick={handlePostCategory}> Save</button>
+                    </div>
+                        
+                    }
+                </div>
                 
                     
                 }
