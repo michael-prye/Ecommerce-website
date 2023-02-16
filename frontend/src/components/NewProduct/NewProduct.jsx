@@ -12,6 +12,7 @@ const NewProduct = () => {
     const [categoryForm, setCategoryForm] = useState({name:""})
     const [categories, getCategories] = useFetch('http://127.0.0.1:8000/api/product/category', 'GET',null)
     const [postCategory, sendPostCategory] = useFetch('http://127.0.0.1:8000/api/product/category','POST',categoryForm)
+    const [postProduct, sendPostProduct] = useFetch('http://127.0.0.1:8000/api/product/','POST',productForm)
     const [selectedCategory, setSelectedCategory] = useState()
     const [addCategory, setAddCategory] = useState(false)
     
@@ -38,6 +39,11 @@ const NewProduct = () => {
         await sendPostCategory();
         await getCategories();
         setAddCategory(false);
+    }
+    const handlePostProduct = async()=>{
+        await sendPostProduct(selectedCategory);
+        console.log(postProduct)
+
     }
 
 
