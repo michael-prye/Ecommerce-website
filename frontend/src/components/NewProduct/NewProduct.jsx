@@ -7,13 +7,18 @@ import { Alert } from "react-bootstrap";
 
 const NewProduct = () => {
     const [productInfoTab, setProductInfoTab] = useState(true)
+    const [productImageTab, setProductImageTab] = useState(true)
     const {user} = useContext(AuthContext);
     const defaultProductInfo = {name:"",description:"", price:""}
     const [productForm, setProductForm] = useState(defaultProductInfo)
+    const defaultProductImage = {name:"",image:null,default:false}
+    const [imageForm, setImageForm] = useState(defaultProductImage)
     const [categoryForm, setCategoryForm] = useState({name:""})
     const [categories, getCategories] = useFetch('http://127.0.0.1:8000/api/product/category', 'GET',null)
     const [postCategory, sendPostCategory] = useFetch('http://127.0.0.1:8000/api/product/category','POST',categoryForm)
     const [postProduct, sendPostProduct] = useFetch('http://127.0.0.1:8000/api/product/','POST',productForm)
+    const [postImage, sendPostImage] = useFetch('http://127.0.0.1:8000/api/product/image','POST',imageForm)
+    const [ProductImages, getPostImage] = useFetch('http://127.0.0.1:8000/api/product/image','GET',null)
     const [selectedCategory, setSelectedCategory] = useState()
     const [addCategory, setAddCategory] = useState(false)
     const [productInfoAlert, setProductInfoAlert] = useState(false)
@@ -35,7 +40,15 @@ const NewProduct = () => {
     const handleProductForm = (e)=>{
         e.persist();
         setProductForm({...productForm, [e.target.name]: e.target.value})
-        console.log(productForm)
+    }
+    const handleImageForm = (e)=>{
+        e.persist();
+        if(e.target.name === "image"){
+            setImageForm({...imageForm, [e.target.name]: e.target.files[0]}) 
+        }else{
+            setImageForm({...imageForm, [e.target.name]: e.target.value})
+        }
+            
     }
     const handlePostCategory = async()=>{
         await sendPostCategory();
@@ -44,10 +57,17 @@ const NewProduct = () => {
     }
     const handlePostProduct = async()=>{
         await sendPostProduct(selectedCategory);
-        setProductForm(defaultProductInfo)
-        setSelectedCategory("")
         setProductInfoAlert(true)
         setTimeout(()=> setProductInfoAlert(false),2000 )
+        setProductInfoTab(false)
+        setProductImageTab(true)
+    }
+    const handlePostImage = async (e)=>{
+        e.preventDefault();
+        await sendPostImage(postProduct.id, true)
+        await getPostImage(postProduct.id)
+       
+
     }
 
 
@@ -103,10 +123,38 @@ const NewProduct = () => {
                 
                     
                 }
+                {postProduct.name && 
+                <button onClick={()=>console.log(postProduct)}>test</button>
+                }
 
                 
             </div>
             <div className="product-images">
+                {productImageTab == true &&
+                <>
+                <h1>Product Images</h1>
+                <form onSubmit={handlePostImage}>
+                    <label>
+                        Image Name:
+                        <input type="text" name="name" value={imageForm.name} onChange={handleImageForm}/>
+                    </label>
+                    <label>
+                        Select a image:
+                        <input type="file" name="image" accept="image/png, image/jpeg"  onChange={handleImageForm}/>
+                    </label>
+                    <input type="submit" value="Save"/>
+
+
+                </form>
+                <button onClick={()=>{console.log(ProductImages)}}>get image</button>
+                {ProductImages[0].image && 
+                <img src={ProductImages[0].image}/>
+                }
+                </>
+
+
+                }
+                
 
             </div>
 
