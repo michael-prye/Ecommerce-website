@@ -148,7 +148,7 @@ const NewProduct = () => {
                 </form>
                 <button onClick={()=>{console.log(ProductImages)}}>get image</button>
                 {ProductImages[0].image && 
-                <img src={ProductImages[0].image}/>
+                <img src={`http://127.0.0.1:8000${ProductImages[0].image}`}/>
                 }
                 </>
 
