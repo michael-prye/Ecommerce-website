@@ -53,17 +53,18 @@ def product_list(request):
 @permission_classes([IsAuthenticated])
 def product_image(request):
     if request.method == 'GET':
-        product_id = request.query_params.get('product')
+        product_id = request.query_params.get('id')
         if product_id:
             queryset = ProductImage.objects.filter(product=product_id)
             serializer = ImageSerializer(queryset, many=True)
             return Response(serializer.data, status=status.HTTP_200_OK)
     if request.method=='POST':
-        product_id = request.query_params.get('product')
+        product_id = request.query_params.get('id')
         serializer = ImageSerializer(data=request.data)
         if serializer.is_valid():
             serializer.save(product_id=product_id)
             return Response(serializer.data, status=status.HTTP_201_CREATED)
+        print(serializer.errors)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
