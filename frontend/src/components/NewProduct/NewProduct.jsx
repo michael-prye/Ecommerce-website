@@ -18,7 +18,7 @@ const NewProduct = () => {
     const [postCategory, sendPostCategory] = useFetch('http://127.0.0.1:8000/api/product/category','POST',categoryForm)
     const [postProduct, sendPostProduct] = useFetch('http://127.0.0.1:8000/api/product/','POST',productForm)
     const [postImage, sendPostImage] = useFetch('http://127.0.0.1:8000/api/product/image','POST',imageForm)
-    const [ProductImages, getPostImage] = useFetch('http://127.0.0.1:8000/api/product/image','GET',null)
+    const [productImages, getPostImage] = useFetch('http://127.0.0.1:8000/api/product/image','GET',null)
     const [selectedCategory, setSelectedCategory] = useState()
     const [addCategory, setAddCategory] = useState(false)
     const [productInfoAlert, setProductInfoAlert] = useState(false)
@@ -146,10 +146,12 @@ const NewProduct = () => {
 
 
                 </form>
-                <button onClick={()=>{console.log(ProductImages)}}>get image</button>
-                {ProductImages[0].image && 
-                <img src={`http://127.0.0.1:8000${ProductImages[0].image}`}/>
-                }
+                {productImages.map((image)=>(
+                    <>
+                    <h1>{image.name}</h1>
+                    <img src={`http://127.0.0.1:8000${image.image}`}/>
+                    </>
+                ))}
                 </>
 
 
