@@ -6,8 +6,7 @@ import { Alert } from "react-bootstrap";
 
 
 const NewProduct = () => {
-    const [productInfoTab, setProductInfoTab] = useState(true)
-    const [productImageTab, setProductImageTab] = useState(true)
+    const [productImageTab, setProductImageTab] = useState(false)
     const {user} = useContext(AuthContext);
     const defaultProductInfo = {name:"",description:"", price:""}
     const [productForm, setProductForm] = useState(defaultProductInfo)
@@ -102,7 +101,6 @@ const NewProduct = () => {
                         <option value="" disabled selected>Select a category</option>
                         {categories.map((category) =>(
                             <option value={category.id}>{category.name}</option>
-
                         ))}
                     </select>
                     <button onClick={()=>setAddCategory(true)}>ADD</button>
@@ -114,17 +112,10 @@ const NewProduct = () => {
                         </label>
                         <button onClick={handlePostCategory}> Save</button>
                     </div>
-                        
                     }
                     <button onClick={handlePostProduct}>SAVE PRODUCT</button>
                     </fieldset>
-
                 </form>
-
-                {postProduct.name && 
-                <button onClick={()=>console.log(postProduct)}>test</button>
-                }
-
                 
             </div>
             <div className="product-images">
@@ -140,7 +131,7 @@ const NewProduct = () => {
                         Select a image:
                         <input type="file" name="image" accept="image/png, image/jpeg"  onChange={handleImageForm}/>
                     </label>
-                    <input type="submit" value="Save"/>
+                    <input type="submit" value="Save Image"/>
 
 
                 </form>
