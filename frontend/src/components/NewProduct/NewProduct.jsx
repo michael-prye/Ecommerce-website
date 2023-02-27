@@ -81,8 +81,14 @@ const NewProduct = () => {
         e.preventDefault();
         await sendPostImage(postProduct.id, true)
         await getPostImage(postProduct.id)
-       
-
+    }
+    const handleReset =()=>{
+        setProductForm(defaultProductInfo)
+        setImageForm(defaultProductImage)
+        setCategoryForm({name:""})
+        setSelectedCategory("")
+        setProductFieldset(false)
+        setProductImageTab(false)
     }
 
 
@@ -96,6 +102,7 @@ const NewProduct = () => {
             <Alert show={productInfoAlert} variant="success" onClose={()=>setProductInfoAlert(false)} dismissible>
                 <Alert.Heading>Product information saved</Alert.Heading>
             </Alert>
+            <button onClick={handleReset}>New Product</button>
             <div className="product-info">                
                 <form className="product-form">
                     <fieldset disabled={productFieldset}>
@@ -162,6 +169,7 @@ const NewProduct = () => {
                 
 
             </div>
+
 
 
 
