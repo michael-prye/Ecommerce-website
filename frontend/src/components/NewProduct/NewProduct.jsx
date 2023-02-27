@@ -6,29 +6,42 @@ import { Alert } from "react-bootstrap";
 
 
 const NewProduct = () => {
-    const [productImageTab, setProductImageTab] = useState(false)
-    const {user} = useContext(AuthContext);
+
+    // form states
     const defaultProductInfo = {name:"",description:"", price:""}
     const [productForm, setProductForm] = useState(defaultProductInfo)
     const defaultProductImage = {name:"",image:null,default:false}
     const [imageForm, setImageForm] = useState(defaultProductImage)
     const [categoryForm, setCategoryForm] = useState({name:""})
+    const [selectedCategory, setSelectedCategory] = useState()
+
+    // Declaring fetch hooks 
     const [categories, getCategories] = useFetch('http://127.0.0.1:8000/api/product/category', 'GET',null)
     const [postCategory, sendPostCategory] = useFetch('http://127.0.0.1:8000/api/product/category','POST',categoryForm)
     const [postProduct, sendPostProduct] = useFetch('http://127.0.0.1:8000/api/product/','POST',productForm)
     const [postImage, sendPostImage] = useFetch('http://127.0.0.1:8000/api/product/image','POST',imageForm)
     const [productImages, getPostImage] = useFetch('http://127.0.0.1:8000/api/product/image','GET',null)
-    const [selectedCategory, setSelectedCategory] = useState()
+
+    // render states
+    const [productImageTab, setProductImageTab] = useState(false)
     const [addCategory, setAddCategory] = useState(false)
     const [productInfoAlert, setProductInfoAlert] = useState(false)
     const [productFieldset, setProductFieldset] = useState(false)
-    
+
+
+
 
     useEffect(()=>{
         getCategories();
     },[])
 
+    const handleAddCategoryBtn = (e) =>{
+        e.preventDefault();
+        setAddCategory(true)
+    }
+
     const handleCategory=(e) =>{
+        e.persist();
         setSelectedCategory(e.target.value)
         console.log(selectedCategory)
     }
@@ -50,7 +63,8 @@ const NewProduct = () => {
         }
             
     }
-    const handlePostCategory = async()=>{
+    const handlePostCategory = async(e)=>{
+        e.preventDefault();
         await sendPostCategory();
         await getCategories();
         setAddCategory(false);
@@ -103,7 +117,7 @@ const NewProduct = () => {
                             <option value={category.id}>{category.name}</option>
                         ))}
                     </select>
-                    <button onClick={()=>setAddCategory(true)}>ADD</button>
+                    <button onClick={handleAddCategoryBtn}>ADD</button>
                     {addCategory == true &&
                     <div>
                         <label>
