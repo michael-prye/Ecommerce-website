@@ -22,6 +22,7 @@ const NewProduct = () => {
     const [selectedCategory, setSelectedCategory] = useState()
     const [addCategory, setAddCategory] = useState(false)
     const [productInfoAlert, setProductInfoAlert] = useState(false)
+    const [productFieldset, setProductFieldset] = useState(false)
     
 
     useEffect(()=>{
@@ -55,12 +56,13 @@ const NewProduct = () => {
         await getCategories();
         setAddCategory(false);
     }
-    const handlePostProduct = async()=>{
+    const handlePostProduct = async(e)=>{
+        e.preventDefault();
         await sendPostProduct(selectedCategory);
         setProductInfoAlert(true)
         setTimeout(()=> setProductInfoAlert(false),2000 )
-        setProductInfoTab(false)
         setProductImageTab(true)
+        setProductFieldset(true)
     }
     const handlePostImage = async (e)=>{
         e.preventDefault();
@@ -81,11 +83,9 @@ const NewProduct = () => {
             <Alert show={productInfoAlert} variant="success" onClose={()=>setProductInfoAlert(false)} dismissible>
                 <Alert.Heading>Product information saved</Alert.Heading>
             </Alert>
-            <div className="product-info">
-                <button onClick={()=>{setProductInfoTab(!productInfoTab)}}>product information</button>
-                
-                {productInfoTab == true && 
-                <div className="product-form">
+            <div className="product-info">                
+                <form className="product-form">
+                    <fieldset disabled={productFieldset}>
                     <label>
                         name:
                         <input type="text" name="name" value={productForm.name} onChange={handleProductForm}/>
@@ -117,12 +117,10 @@ const NewProduct = () => {
                         
                     }
                     <button onClick={handlePostProduct}>SAVE PRODUCT</button>
+                    </fieldset>
 
-                </div>
+                </form>
 
-                
-                    
-                }
                 {postProduct.name && 
                 <button onClick={()=>console.log(postProduct)}>test</button>
                 }
@@ -133,7 +131,7 @@ const NewProduct = () => {
                 {productImageTab == true &&
                 <>
                 <h1>Product Images</h1>
-                <form onSubmit={handlePostImage}>
+                <form onSubmit={handlePostImage} dis>
                     <label>
                         Image Name:
                         <input type="text" name="name" value={imageForm.name} onChange={handleImageForm}/>
