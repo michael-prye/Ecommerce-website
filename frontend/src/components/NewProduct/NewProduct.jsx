@@ -159,7 +159,7 @@ const NewProduct = () => {
                 {productImages.map((image)=>(
                     <>
                     <h1>{image.name}</h1>
-                    <img src={`http://127.0.0.1:8000${image.image}`}/>
+                    <img src={`http://127.0.0.1:8000${image.image}`} height='250' width='250'/>
                     </>
                 ))}
                 </>
